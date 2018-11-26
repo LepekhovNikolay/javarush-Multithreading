@@ -24,7 +24,7 @@ public class Solution {
 
     public static String getPartOfString(String string) {
         if (string == null)
-            throw new NullPointerException();
+            throw new TooShortStringException();
         Pattern p1 = Pattern.compile("( [^ ]+){4}");
         Matcher m1 = p1.matcher(string);
         if (m1.find()) {
