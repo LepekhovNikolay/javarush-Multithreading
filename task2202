@@ -1,0 +1,39 @@
+package com.javarush.task.task22.task2202;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/*
+Найти подстроку
+Метод getPartOfString должен возвращать подстроку начиная с символа после 1-го пробела и до конца слова,
+которое следует после 4-го пробела.
+Пример:
+"JavaRush - лучший сервис обучения Java."
+Результат:
+"- лучший сервис обучения"
+Пример:
+"Амиго и Диего лучшие друзья!"
+Результат:
+"и Диего лучшие друзья!"
+На некорректные данные бросить исключение TooShortStringException (сделать исключением).
+*/
+public class Solution {
+    public static void main(String[] args) {
+        System.out.println(getPartOfString("JavaRush - лучший сервис обучения Java."));
+    }
+
+    public static String getPartOfString(String string) {
+        if (string == null)
+            throw new NullPointerException();
+        Pattern p1 = Pattern.compile("( [^ ]+){4}");
+        Matcher m1 = p1.matcher(string);
+        if (m1.find()) {
+            return m1.group().substring(1);
+        }
+        else
+            throw new TooShortStringException();
+    }
+
+    public static class TooShortStringException extends RuntimeException{
+    }
+}
