@@ -1,0 +1,26 @@
+package com.javarush.task.task22.task2203;
+
+/* 
+Между табуляциями
+Метод getPartOfString должен возвращать подстроку между первой и второй табуляцией.
+На некорректные данные бросить исключение TooShortStringException.
+Класс TooShortStringException не менять.
+*/
+public class Solution {
+    public static String getPartOfString(String string) throws TooShortStringException{
+        if (string == null)
+            throw new TooShortStringException();
+        String[] resultArray = string.split("\t");
+        if (resultArray.length > 2)
+            return resultArray[1];
+        else
+            throw new TooShortStringException();
+    }
+
+    public static class TooShortStringException extends Exception {
+    }
+
+    public static void main(String[] args) throws TooShortStringException {
+        System.out.println(getPartOfString("JavaRush - лучший сервис обучения Java\t."));
+    }
+}
