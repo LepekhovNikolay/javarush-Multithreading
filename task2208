@@ -1,0 +1,40 @@
+package com.javarush.task.task22.task2208;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/* 
+Формируем WHERE
+Сформируй часть запроса WHERE используя StringBuilder.
+Если значение null, то параметр не должен попадать в запрос.
+Пример:
+{name=Ivanov, country=Ukraine, city=Kiev, age=null}
+Результат:
+name = 'Ivanov' and country = 'Ukraine' and city = 'Kiev'
+*/
+public class Solution {
+    static Map<String, String> par = new LinkedHashMap<>();
+    static {
+        par.put("name", null);
+        par.put("country", null);
+        par.put("city", null);
+        par.put("age", null);
+    }
+    public static void main(String[] args) {
+        System.out.println(getQuery(par));
+
+    }
+    public static String getQuery(Map<String, String> params) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry :
+                params.entrySet()) {
+            if (entry.getValue() != null) {
+                sb.append(entry.getKey()).append(" = '").append(entry.getValue()).append("' and ");
+            }
+        }
+        if (sb.length() > 0)
+            return sb.toString().substring(0, sb.toString().length() - 5);
+        return "";
+    }
+}
