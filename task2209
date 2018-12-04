@@ -1,0 +1,77 @@
+package com.javarush.task.task22.task2209;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/*
+Составить цепочку слов
+В методе main считай с консоли имя файла, который содержит слова, разделенные пробелом.
+В методе getLine используя StringBuilder расставь все слова в таком порядке, чтобы последняя буква данного слова совпадала с первой буквой следующего не учитывая регистр.
+Каждое слово должно участвовать 1 раз.
+Метод getLine должен возвращать любой вариант.
+Слова разделять пробелом.
+Вывести полученную строку на экран.
+Пример тела входного файла:
+
+Киев Нью-Йорк Амстердам Вена Мельбурн
+
+Результат:
+
+Амстердам Мельбурн Нью-Йорк Киев Вена
+
+*/
+public class Solution {
+    public static void main(String[] args) throws Exception{
+        //todo
+//        System.setIn(new ByteArrayInputStream("C:\\1\\1.txt".getBytes()));
+        //todo
+        try(
+                BufferedReader pathReader = new BufferedReader(new InputStreamReader(System.in));
+                BufferedReader fileReader = new BufferedReader(new FileReader(pathReader.readLine()))
+                )
+        {
+            //...
+            String temp;
+            StringBuilder resultOfReadingFile = new StringBuilder();
+            while ((temp = fileReader.readLine()) != null) {
+                resultOfReadingFile.append(temp).append(" ");
+            }
+            String[] split = null;
+            split = resultOfReadingFile.length() == 0 ? null : resultOfReadingFile.toString().split(" ");
+            StringBuilder result = getLine(split);
+            System.out.println(result.toString());
+        }
+    }
+
+    public static StringBuilder getLine(String... words) {
+        if (words == null || words.length == 0)
+            return new StringBuilder("");
+
+        String currentWord;
+        String result = new String();
+        for (int j = 0; j < words.length; j++) {
+            StringBuilder stack = new StringBuilder();
+            List<String> sourceList = new ArrayList<>(Arrays.asList(words));
+            currentWord = sourceList.get(j);
+            sourceList.remove(j);
+            stack.append(currentWord);
+            for (int i = 0; i < sourceList.size(); i++) {
+                if (sourceList.get(i).toUpperCase().charAt(0) == currentWord.toUpperCase().charAt(currentWord.length()-1)) {
+                    currentWord = sourceList.get(i);
+                    sourceList.remove(i);
+                    stack.append(" ").append(currentWord);
+                    i = -1;
+                }
+            }
+            if (stack.length() > result.length())
+                result = stack.toString();
+        }
+        return result.length() != 0 ? new StringBuilder(result) : null;
+    }
+}
